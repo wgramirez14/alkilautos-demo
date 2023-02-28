@@ -1,0 +1,31 @@
+apply from: "gradle/plugins/spotless.gradle"
+
+compileJava.options.encoding = 'UTF-8'
+
+repositories {
+    mavenCentral()
+}
+
+test {
+    useTestNG {
+        suites "src/test/resources/test-data.xml"
+        testLogging.showStandardStreams = true
+        useDefaultListeners = true
+    }
+}
+
+dependencies {
+    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: "${seleniumVersion}"
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: "${slf4jVersion}"
+    implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: "${webDriverManageVersion}"
+    implementation group: 'io.qameta.allure', name: 'allure-testng', version: "${allureVersion}"
+
+    testImplementation group: 'org.testng', name: 'testng', version: "${testngVersion}"
+    testImplementation group: 'org.slf4j', name: 'slf4j-simple', version: "${slf4jVersion}"
+    testImplementation group: 'org.hamcrest', name: 'hamcrest', version: "${hamcrestVersion}"
+
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: "${lombokVersion}"
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: "${lombokVersion}"
+}
+
+compileJava.dependsOn 'spotlessApply'
